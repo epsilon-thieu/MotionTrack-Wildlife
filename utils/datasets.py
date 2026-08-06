@@ -345,9 +345,12 @@ class LoadStreams:  # multiple IP or RTSP cameras
 
 
 def img2label_paths(img_paths):
-    # Define label paths as a function of image paths
-    sa, sb = os.sep + 'images' + os.sep, os.sep + 'labels' + os.sep  # /images/, /labels/ substrings
-    return ['txt'.join(x.replace(sa, sb, 1).rsplit(x.split('.')[-1], 1)) for x in img_paths]
+    result = []
+    for x in img_paths:
+        p = x.replace(os.sep + 'frames' + os.sep, os.sep + 'boxid' + os.sep)
+        p = os.path.splitext(p)[0] + '.json'
+        result.append(p)
+    return result
 
 
 class LoadImagesAndLabels(Dataset):  # for training/testing
@@ -369,7 +372,8 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
             for p in path if isinstance(path, list) else [path]:
                 p = Path(p)  # os-agnostic
                 if p.is_dir():  # dir
-                    f += glob.glob(str(p / '**' / '*.*'), recursive=True)
+                    f += glob.glob(str(p / '*' / 'frames' / '*.*'), recursive=False) 
+                    # sua 1
                     # f = list(p.rglob('**/*.*'))  # pathlib
                 elif p.is_file():  # file
                     with open(p, 'r') as t:
@@ -389,7 +393,8 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
         self.label_files = img2label_paths(self.img_files)  # labels
         cache_path = (p if p.is_file() else Path(self.label_files[0]).parent).with_suffix('.cache')  # cached labels
         if cache_path.is_file():
-            cache, exists = torch.load(cache_path), True  # load
+            #cache, exists = torch.load(cache_path), True  # load
+            cache, exists = torch.load(cache_path, weights_only=False), True
             #if cache['hash'] != get_hash(self.label_files + self.img_files) or 'version' not in cache:  # changed
             #    cache, exists = self.cache_labels(cache_path, prefix), False  # re-cache
         else:
@@ -415,7 +420,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                 x[:, 0] = 0
 
         n = len(shapes)  # number of images
-        bi = np.floor(np.arange(n) / batch_size).astype(np.int)  # batch index
+        bi = np.floor(np.arange(n) / batch_size).astype(int)  # batch index
         nb = bi[-1] + 1  # number of batches
         self.batch = bi  # batch index of image
         self.n = n
@@ -443,7 +448,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                 elif mini > 1:
                     shapes[i] = [1, 1 / mini]
 
-            self.batch_shapes = np.ceil(np.array(shapes) * img_size / stride + pad).astype(np.int) * stride
+            self.batch_shapes = np.ceil(np.array(shapes) * img_size / stride + pad).astype(int) * stride
 
         # Cache images into memory for faster training (WARNING: large datasets may exceed system RAM)
         self.imgs = [None] * n
@@ -483,6 +488,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                 assert im.format.lower() in img_formats, f'invalid image format {im.format}'
 
                 # verify labels
+                '''
                 if os.path.isfile(lb_file):
                     nf += 1  # label found
                     with open(lb_file, 'r') as f:
@@ -499,7 +505,41 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                         assert np.unique(l, axis=0).shape[0] == l.shape[0], 'duplicate labels'
                     else:
                         ne += 1  # label empty
-                        l = np.zeros((0, 5), dtype=np.float32)
+                        l = np.zeros((0, 5), dtype=np.float32) 
+                '''
+                if os.path.isfile(lb_file):
+                    nf += 1  # label found
+                    import json as _json
+                    with open(lb_file, 'r') as f:
+                        jdata = _json.load(f)
+                    img_w = jdata.get('imageWidth', shape[0])
+                    img_h = jdata.get('imageHeight', shape[1])
+                    rows = []
+                    segments = []
+                    for s in jdata.get('shapes', []):
+                        if s.get('shape_type') != 'rectangle':
+                            continue
+                        pts = s['points']
+                        xs = [p[0] for p in pts]
+                        ys = [p[1] for p in pts]
+                        x1, x2 = min(xs), max(xs)
+                        y1, y2 = min(ys), max(ys)
+                        xc = ((x1 + x2) / 2) / img_w
+                        yc = ((y1 + y2) / 2) / img_h
+                        w  = (x2 - x1) / img_w
+                        h  = (y2 - y1) / img_h
+                        label_map = {'elephant': 0, 'zebra': 1, 'giraffe': 2}
+                        cls_id = label_map.get(s.get('label', ''), -1)
+                        if cls_id == -1:
+                            continue  # bỏ qua label không nhận ra
+                        rows.append([cls_id, xc, yc, w, h])
+                    l = np.array(rows, dtype=np.float32) if rows else np.zeros((0, 5), dtype=np.float32)
+                    if len(l) == 0:
+                        ne += 1  # label empty
+                    # else:
+                    #     nm += 1  # label missing
+                    #     l = np.zeros((0, 5), dtype=np.float32)
+                    #     segments = []
                 else:
                     nm += 1  # label missing
                     l = np.zeros((0, 5), dtype=np.float32)
@@ -1200,7 +1240,7 @@ def pastein(image, labels, sample_labels, sample_images, sample_masks):
                 r_image = cv2.resize(sample_images[sel_ind], (r_w, r_h))
                 temp_crop = image[ymin:ymin+r_h, xmin:xmin+r_w]
                 m_ind = r_mask > 0
-                if m_ind.astype(np.int).sum() > 60:
+                if m_ind.astype(np.int64).sum() > 60:
                     temp_crop[m_ind] = r_image[m_ind]
                     #print(sample_labels[sel_ind])
                     #print(sample_images[sel_ind].shape)
@@ -1283,7 +1323,7 @@ def extract_boxes(path='../coco/'):  # from utils.datasets import *; extract_box
                     b = x[1:] * [w, h, w, h]  # box
                     # b[2:] = b[2:].max()  # rectangle to square
                     b[2:] = b[2:] * 1.2 + 3  # pad
-                    b = xywh2xyxy(b.reshape(-1, 4)).ravel().astype(np.int)
+                    b = xywh2xyxy(b.reshape(-1, 4)).ravel().astype(np.int64)
 
                     b[[0, 2]] = np.clip(b[[0, 2]], 0, w)  # clip boxes outside of image
                     b[[1, 3]] = np.clip(b[[1, 3]], 0, h)

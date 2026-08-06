@@ -231,7 +231,10 @@ def train(hyp, opt, device, tb_writer=None):
 
         # EMA
         if ema and ckpt.get('ema'):
-            ema.ema.load_state_dict(ckpt['ema'].float().state_dict())
+            ema_state = ckpt['ema'].float().state_dict()
+            model_state = ema.ema.state_dict()
+            ema_state = {k: v for k, v in ema_state.items() if k in model_state and v.shape == model_state[k].shape}
+            ema.ema.load_state_dict(ema_state, strict=False)
             ema.updates = ckpt['updates']
 
         # Results
