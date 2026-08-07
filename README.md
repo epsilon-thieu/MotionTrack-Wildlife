@@ -26,12 +26,12 @@ Specifically, this repo covers:
 ```
         wildlife_dataset/
         |---sequence_name1/
-        |---frames/
-        |   |---frame_0.jpg
-        |   |---frame_1.jpg ...
-        |---boxid/
-                |---frame_0.jpg
-                |---frame_1.jpg ...
+                |---frames/
+                |       |---frame_0.jpg
+                |       |---frame_1.jpg ...
+                |---boxid/
+                        |---frame_0.jpg
+                        |---frame_1.jpg ...
 ```
 
 ### Structure required by the MotionTrack detector (YOLOv7)
@@ -77,3 +77,16 @@ To use these scripts, place the wildlife dataset in the following layout:
                 └── datawildlife_test/
 ```
 
+## Weights
+
+We fine-tune two pretrained YOLOv7 checkpoints — **YOLOv7-tiny** and **YOLOv7-W6** — released by the [original YOLOv7 authors](https://github.com/WongKinYiu/yolov7/releases) on a subset of our custom wildlife dataset. We benchmark both the COCO-pretrained baselines and their wildlife fine-tuned counterparts to evaluate the impact of domain-specific fine-tuning on detection performance.
+
+| Model | Size | Parameters | Download |
+|---|---|---|---|
+| YOLOv7 (COCO pretrained) | 73 MB | 36.9M | [link]() |
+| YOLOv7-tiny (COCO pretrained) | 12.3 MB | 6.2M | [link]() |
+| YOLOv7-W6 (COCO pretrained) | 137.9 MB | 70.4M | [link]() |
+| YOLOv7-tiny (fine-tuned, wildlife) | 47.7 MB | 6.2M | [link]() |
+| YOLOv7-W6 (fine-tuned, wildlife) | 554 MB | 70.4M | [link]() |
+
+> **Note:** Parameter counts are unchanged after fine-tuning since only the weights are updated, not the architecture. COCO-pretrained checkpoints are used as baselines for comparison against the wildlife fine-tuned models.
