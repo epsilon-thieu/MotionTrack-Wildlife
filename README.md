@@ -67,12 +67,13 @@ format required by MotionTrack — **no manual restructuring needed** on
 your end.
 
 To use these scripts, place the wildlife dataset in the following layout:
+\`\`\`
 MotionTrack-Wildlife/
 └── wildlife_dataset/
         ├── datawildlife_train/
         ├── datawildlife_val/
         └── datawildlife_test/
-
+\`\`\`
 
 
 
