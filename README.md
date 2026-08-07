@@ -22,7 +22,7 @@ Specifically, this repo covers:
 ![Tracking demo](figure/demo.gif)
 
 ## Data Preparation
-### Original wildlife dataset structure
+### Original [wildlife dataset](https://data.bris.ac.uk/data/dataset/ewnuoroebuae20vei0cu6zu69) structure
 ```
         wildlife_dataset/
         |---sequence_name1/
