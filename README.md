@@ -23,15 +23,14 @@ Specifically, this repo covers:
 
 ## Data Preparation
 ### Original wildlife dataset structure
-The wildlife dataset is organized as follows:
-        wildlife dataset
-        |---sequence_name1
-                |---frames
-                        |---frame_0.jpg
-                        |---frame_1.jpg ...
-                |---boxid
-                        |---frame_0.jpg
-                        |---frame_1.jpg ...
+wildlife_dataset/
+|---sequence_name1/
+    |---frames/
+    |   |---frame_0.jpg
+    |   |---frame_1.jpg ...
+    |---boxid/
+        |---frame_0.jpg
+        |---frame_1.jpg ...
 
 ### Structure required by the MotionTrack detector (YOLOv7)
         JMT2022
@@ -68,11 +67,14 @@ format required by MotionTrack — **no manual restructuring needed** on
 your end.
 
 To use these scripts, place the wildlife dataset in the following layout:
-        MotionTrack-Wildlife/
-        └── wildlife_dataset/
-        ├── datawildlife_train/
-        ├── datawildlife_val/
-        └── datawildlife_test/
+
+​```
+MotionTrack-Wildlife/
+└── wildlife_dataset/
+    ├── datawildlife_train/
+    ├── datawildlife_val/
+    └── datawildlife_test/
+​```
 
 
 
