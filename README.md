@@ -23,6 +23,7 @@ Specifically, this repo covers:
 
 ## Data Preparation
 ### Original wildlife dataset structure
+```
 wildlife_dataset/
 |---sequence_name1/
     |---frames/
@@ -31,6 +32,7 @@ wildlife_dataset/
     |---boxid/
         |---frame_0.jpg
         |---frame_1.jpg ...
+```
 
 ### Structure required by the MotionTrack detector (YOLOv7)
         JMT2022
