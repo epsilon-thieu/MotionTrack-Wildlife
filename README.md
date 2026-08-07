@@ -46,17 +46,17 @@ wildlife_dataset/
 ### Structure required by the MotionTrack tracker
         jmt2022/
         └── dataset/
-        ├── test/
-        ├── seq_001/
-        │   ├── seqinfo.ini
-        │   ├── seq_001/
-        │   │   ├── 000001.jpg
-        │   │   ├── 000002.jpg
-        │   │   └── ...
-        │   └── det/
-        │       └── det.txt
-        ├── seq_002/
-        └── ...
+                ├── test/
+                ├── seq_001/
+                │   ├── seqinfo.ini
+                │   ├── seq_001/
+                │   │   ├── 000001.jpg
+                │   │   ├── 000002.jpg
+                │   │   └── ...
+                │   └── det/
+                │       └── det.txt
+                ├── seq_002/
+                └── ...
 
 ### Why this repo exists
 
@@ -67,14 +67,12 @@ format required by MotionTrack — **no manual restructuring needed** on
 your end.
 
 To use these scripts, place the wildlife dataset in the following layout:
+        MotionTrack-Wildlife/
+        └── wildlife_dataset/
+                ├── datawildlife_train/
+                ├── datawildlife_val/
+                └── datawildlife_test/
 
-​```
-MotionTrack-Wildlife/
-└── wildlife_dataset/
-    ├── datawildlife_train/
-    ├── datawildlife_val/
-    └── datawildlife_test/
-​```
 
 
 
