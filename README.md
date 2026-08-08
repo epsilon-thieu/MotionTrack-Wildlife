@@ -184,3 +184,14 @@ validation, and test sets as follows.
 | Image size| 1280 × 1280 |
 | Batch size| 4           |
 | Workers   | 4           |
+
+### Training Results
+
+
+The plots below show the detection fine-tuning progress on the wildlife
+dataset — mAP over epochs and the corresponding training loss curves.
+
+<p align="center">
+  <img src="figure/detect_mAP.jpg" width="49%" />
+  <img src="figure/detect_Loss.jpg" width="49%" />
+</p>
