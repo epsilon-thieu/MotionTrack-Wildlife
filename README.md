@@ -191,7 +191,6 @@ validation, and test sets as follows.
 The plots below show the detection fine-tuning progress on the wildlife
 dataset — mAP over epochs and the corresponding training loss curves.
 
-<p align="center">
-  <img src="figure/detect_mAP.jpg" width="49%" />
-  <img src="figure/detect_Loss.jpg" width="49%" />
-</p>
+![Detection mAP](figure/detect_mAP.jpg)
+
+![Training Loss](figure/detect_Loss.jpg)
