@@ -118,7 +118,7 @@ it needs to be placed inside the following directory structure:
 ```
         run/
         ├── weights/
-        │ └── last.pt
+        │       └── last.pt
         ├── hyp.yaml
         └── opt.yaml
 ```
@@ -126,7 +126,6 @@ Once the structure above is in place, run `detect_resume_kaggle.ipynb`.
 
 ### Track
 
-[#track](#track)
 
 - To run tracking using the wildlife fine-tuned weights, run
   `track_wl_weight_up.ipynb`.
@@ -137,3 +136,51 @@ Once the structure above is in place, run `detect_resume_kaggle.ipynb`.
 > up based on the original author's environment. Before running, update
 > these paths to match your own setup (e.g. dataset location, weight file
 > location, and output directory).
+
+## Benchmark
+
+
+### Data
+
+
+The wildlife fine-tuning dataset consists of drone footage sequences
+covering two classes: **elephants** and **zebras**, split into train,
+validation, and test sets as follows.
+
+**Train**
+
+| Sequence                                     | Frames | Class     |
+| --------------------------------------------- | ------ | --------- |
+| DJI_0207                                       | 868    | Elephants |
+| DJI_0117_video3                                | 807    | Zebras    |
+| DJI_0204_video2                                | 357    | Elephants |
+| DJI_0601_video2                                | 700    | Zebras    |
+| DJI_0601_video3                                | 1200   | Zebras    |
+| DJI_0601_video4                                | 1000   | Zebras    |
+| DJI_0601_video6                                | 551    | Zebras    |
+| DJI_20230719145427_0002_V_video4               | 1099   | Zebras    |
+| DJI_20230719145427_0002_V_video5               | 864    | Zebras    |
+| DJI_20240624153820_0001_V                      | 161    | Zebras    |
+| **Total**                                      | **7607** |         |
+
+**Val**
+
+| Sequence                                     | Frames | Class  |
+| --------------------------------------------- | ------ | ------ |
+| DJI_20230719145427_0002_V_video2               | 1200   | Zebras |
+
+**Test**
+
+| Sequence                                                     | Frames | Class  |
+| -------------------------------------------------------------- | ------ | ------ |
+| DJI_vlc-record-2025-01-03-14h37m50s-DJI_20240624153820_0001_V | 161    | Zebras |
+
+### Training Configuration
+
+
+| Setting   | Value       |
+| --------- | ----------- |
+| GPU       | T4          |
+| Image size| 1280 × 1280 |
+| Batch size| 4           |
+| Workers   | 4           |
