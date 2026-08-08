@@ -90,3 +90,46 @@ We fine-tune two pretrained YOLOv7 checkpoints — **YOLOv7-tiny** and **YOLOv7-
 | YOLOv7-W6 (fine-tuned, wildlife) | 554 MB | 70.4M | [weights](https://github.com/epsilon-thieu/MotionTrack-Wildlife/releases/download/weights/last_yolov7_w6.pt) |
 
 > **Note:** COCO-pretrained checkpoints are used as baselines for comparison against the wildlife fine-tuned models.
+
+## Installation
+
+[#installation](#installation)
+
+Since the source code is implemented as notebooks, you can run this
+project on either **Google Colab** or **Kaggle**. Before running any
+notebook, make sure the wildlife dataset is placed according to the
+structure required in the [Data Preparation](#data-preparation) section.
+
+### Detect
+
+[#detect](#detect)
+
+Download the YOLOv7 pretrained weights from the
+[YOLOv7 releases page](https://github.com/WongKinYiu/yolov7/releases).
+Make sure to download the weights with the `_training` suffix (e.g.
+`yolov7_training.pt`, `yolov7-tiny_training.pt`), since these are
+optimized for fine-tuning rather than inference.
+
+**First-time training**
+
+Run `detect_train_kaggle.ipynb`.
+
+**Resuming training**
+
+The weight file from the previous step must not be used on its own —
+it needs to be placed inside the following directory structure:
+        run/
+        ├── weights/
+        │ └── last.pt
+        ├── hyp.yaml
+        └── opt.yaml
+Once the structure above is in place, run `detect_resume_kaggle.ipynb`.
+
+### Track
+
+[#track](#track)
+
+- To run tracking using the wildlife fine-tuned weights, run
+  `track_wl_weight_up.ipynb`.
+- To run tracking using the COCO-pretrained weights, run
+  `track_coco_weight_up.ipynb`.
