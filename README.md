@@ -2,7 +2,7 @@
 
 This repository provides the training and benchmarking pipeline for evaluating
 [MotionTrack](https://github.com/lzq11/MotionTrack) — a multi-object tracker
-built on a YOLOv7 detector — on a custom wildlife dataset, in addition to the
+built on a YOLOv7 detector — on a custom [Wildlife dataset](https://data.bris.ac.uk/data/dataset/ewnuoroebuae20vei0cu6zu69), in addition to the
 standard COCO-pretrained setup.
 
 Specifically, this repo covers:
@@ -194,3 +194,32 @@ dataset — mAP over epochs and the corresponding training loss curves.
 ![Detection mAP](figure/detect_mAP.jpg)
 
 ![Training Loss](figure/detect_Loss.jpg)
+
+### Tracking
+
+
+**FPS**
+
+| Model    | YOLOv7 | YOLOv7-Tiny | YOLOv7-W6 | YOLOv7-Tiny (fine-tuned) | YOLOv7-W6 (fine-tuned) |
+| -------- | ------ | ----------- | --------- | ------------------------- | ------------------------ |
+| FPS      | 12     | 36          | 13.5      | 43                         | 10.3                     |
+
+**Validation Video**
+
+| Model                     | IDF1  | Recall | Precision | MOTA  | IDs |
+| -------------------------- | ----- | ------ | --------- | ----- | --- |
+| YOLOv7                     | 93.9%  | 99.3%   | 99.2%      | 98.4%  | 6   |
+| YOLOv7-W6                  | 93.4%  | 99.3%   | 88.5%      | 86.3%  | 11  |
+| YOLOv7-Tiny                 | 82.2%  | 95.1%   | 95.8%      | 90.6%  | 62  |
+| YOLOv7-W6 (fine-tuned)      | 99.6% | 99.6%  | 99.7%     | 99.2% | 0   |
+| YOLOv7-Tiny (fine-tuned)    | 98.6% | 98.6%  | 98.6%     | 99.8% | 1   |
+
+**Test Video**
+
+| Model                     | IDF1  | Recall | Precision | MOTA  | IDs |
+| -------------------------- | ----- | ------ | --------- | ----- | --- |
+| YOLOv7                     | 95.9%  | 97%     | 95%        | 91.8%  | 2   |
+| YOLOv7-W6                  | 96.2%  | 97.3%   | 95.3%      | 92.4%  | 2   |
+| YOLOv7-Tiny                 | 94.4%  | 92.9%   | 96.1%      | 89.0%  | 2   |
+| YOLOv7-W6 (fine-tuned)      | 98.2% | 99.1%  | 97.3%     | 96.3% | 2   |
+| YOLOv7-Tiny (fine-tuned)    | 97.9% | 99%    | 96.8%     | 95.7% | 2   |
