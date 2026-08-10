@@ -46,6 +46,7 @@ detect_train_kaggle.ipynb
 
 #### Optional
 This section is for resuming training if you want to continue from where you left off in a previous training run.
+
 The weight file from the previous step must not be used on its own —
 it needs to be placed inside the following directory structure:
 ```
@@ -165,7 +166,6 @@ The plots below show the detection fine-tuning progress on the wildlive
 dataset — mAP over epochs and the corresponding training loss curves.
 
 ![Detection mAP](figure/detect_mAP.jpg)
-
 ![Training Loss](figure/detect_Loss.jpg)
 
 ### Tracking
