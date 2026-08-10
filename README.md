@@ -2,29 +2,30 @@
 
 This repository provides the training and benchmarking pipeline for evaluating
 [MotionTrack](https://github.com/lzq11/MotionTrack) — a multi-object tracker
-built on a YOLOv7 detector — on a custom [Wildlife dataset](https://data.bris.ac.uk/data/dataset/ewnuoroebuae20vei0cu6zu69), in addition to the
+built on a YOLOv7 detector — on a custom [wildlive dataset](https://dat-nguyenvn.github.io/WildLive/), in addition to the
 standard COCO-pretrained setup.
 
 Specifically, this repo covers:
 
 - **Dataset reformatting** — converting the
-  [Wildlife dataset](https://data.bris.ac.uk/data/dataset/ewnuoroebuae20vei0cu6zu69)
+  [wildlive dataset](https://dat-nguyenvn.github.io/WildLive/)
   into the annotation and directory format required by the MotionTrack
   tracker and YOLOv7 detector (MOT-style `gt.txt`, `seqinfo.ini`, frame
   sequences).
 - **Detector fine-tuning** — fine-tuning the YOLOv7 detector weights on the
-  reformatted wildlife dataset for improved detection accuracy on
-  wildlife-specific classes (elephant, zebra, giraffe).
+  reformatted wildlive dataset for improved detection accuracy on
+  wildlive-specific classes (elephant, zebra, giraffe).
 - **Benchmarking** — running and evaluating MotionTrack with both the
-  original COCO-pretrained weights and the fine-tuned wildlife weights, for
+  original COCO-pretrained weights and the fine-tuned wildlive weights, for
   direct performance comparison.
 
 ![Tracking demo](figure/demo.gif)
+> **Note:** The video shows the tracking result of MotionTrack running with the fine-tuned wildlife weights.
 
 ## Data Preparation
-### Original [wildlife dataset](https://data.bris.ac.uk/data/dataset/ewnuoroebuae20vei0cu6zu69) structure
+### Original [wildlive dataset](https://dat-nguyenvn.github.io/WildLive/) structure
 ```
-        wildlife_dataset/
+        wildlive_dataset/
         |---sequence_name1/
                 |---frames/
                 |       |---frame_0.jpg
@@ -62,40 +63,50 @@ Specifically, this repo covers:
 
 ### Why this repo exists
 
-Since the original wildlife dataset layout differs from what the MotionTrack
+Since the original wildlive dataset layout differs from what the MotionTrack
 detector and tracker each expect, this repo integrates conversion scripts
-that automatically transform the original wildlife structure into the
+that automatically transform the original wildlive structure into the
 format required by MotionTrack — **no manual restructuring needed** on
 your end.
 
-To use these scripts, place the wildlife dataset in the following layout:
+To use these scripts, place the wildlive dataset in the following layout:
 ```
-        MotionTrack-Wildlife/
-        └── wildlife_dataset/
-                ├── datawildlife_train/
-                ├── datawildlife_val/
-                └── datawildlife_test/
+        MotionTrack-wildlive/
+        └── wildlive_dataset/
+                ├── datawildlive_train/
+                ├── datawildlive_val/
+                └── datawildlive_test/
 ```
+
+### Evaluation Set
+
+Due to hardware constraints (GPU and storage), only a subset of the wildlife dataset is used for evaluation — approximately 7,600 frames (35% of the total available frames).
+
+|  | Frames |
+| ----- | ------ |
+| Train | 7,607  |
+| Val   | 1,200  |
+| Test  | 161    |
 
 ## Weights
 
-We fine-tune two pretrained YOLOv7 checkpoints — **YOLOv7-tiny** and **YOLOv7-W6** — released by the [YOLOv7 assets](https://github.com/WongKinYiu/yolov7/releases) on a subset of our custom wildlife dataset. We benchmark both the COCO-pretrained baselines and their wildlife fine-tuned counterparts to evaluate the impact of domain-specific fine-tuning on tracking performance.
+We fine-tune two pretrained YOLOv7 checkpoints — **YOLOv7-tiny** and **YOLOv7-W6** — released by the [YOLOv7 assets](https://github.com/WongKinYiu/yolov7/releases) on a subset of our custom wildlive dataset. We benchmark both the COCO-pretrained baselines and their wildlive fine-tuned counterparts to evaluate the impact of domain-specific fine-tuning on tracking performance.
 
-| Model | Size | Parameters | Download |
-|---|---|---|---|
-| YOLOv7 (COCO pretrained) | 73 MB | 36.9M | [weights](https://github.com/epsilon-thieu/MotionTrack-Wildlife/releases/download/weights/yolov7.pt) |
-| YOLOv7-tiny (COCO pretrained) | 12.3 MB | 6.2M | [weights](https://github.com/epsilon-thieu/MotionTrack-Wildlife/releases/download/weights/yolov7-tiny.pt) |
-| YOLOv7-W6 (COCO pretrained) | 137.9 MB | 70.4M | [weights](https://github.com/epsilon-thieu/MotionTrack-Wildlife/releases/download/weights/yolov7-w6.pt) |
-| YOLOv7-tiny (fine-tuned, wildlife) | 47.7 MB | 6.2M | [weights](https://github.com/epsilon-thieu/MotionTrack-Wildlife/releases/download/weights/last_yolov7_tiny.pt) |
-| YOLOv7-W6 (fine-tuned, wildlife) | 554 MB | 70.4M | [weights](https://github.com/epsilon-thieu/MotionTrack-Wildlife/releases/download/weights/last_yolov7_w6.pt) |
+| Model | Download |
+|---|---|
+| YOLOv7 (COCO pretrained) | [weights](https://github.com/epsilon-thieu/MotionTrack-wildlive/releases/download/weights/yolov7.pt) |
+| YOLOv7-tiny (COCO pretrained) | [weights](https://github.com/epsilon-thieu/MotionTrack-wildlive/releases/download/weights/yolov7-tiny.pt) |
+| YOLOv7-W6 (COCO pretrained) | [weights](https://github.com/epsilon-thieu/MotionTrack-wildlive/releases/download/weights/yolov7-w6.pt) |
+| YOLOv7-tiny (fine-tuned, wildlive) | [weights](https://github.com/epsilon-thieu/MotionTrack-wildlive/releases/download/weights/last_yolov7_tiny.pt) |
+| YOLOv7-W6 (fine-tuned, wildlive) | [weights](https://github.com/epsilon-thieu/MotionTrack-wildlive/releases/download/weights/last_yolov7_w6.pt) |
 
-> **Note:** COCO-pretrained checkpoints are used as baselines for comparison against the wildlife fine-tuned models.
+> **Note:** COCO-pretrained checkpoints are used as baselines for comparison against the wildlive fine-tuned models.
 
 ## Install
 
 Since the source code is implemented as notebooks, you can run this
 project on either **Google Colab** or **Kaggle**. Before running any
-notebook, make sure the wildlife dataset is placed according to the
+notebook, make sure the wildlive dataset is placed according to the
 structure required in the [Data Preparation](#data-preparation) section.
 
 ### Detect
@@ -127,7 +138,7 @@ Once the structure above is in place, run `detect_resume_kaggle.ipynb`.
 ### Track
 
 
-- To run tracking using the wildlife fine-tuned weights, run
+- To run tracking using the wildlive fine-tuned weights, run
   `track_wl_weight_up.ipynb`.
 - To run tracking using the COCO-pretrained weights, run
   `track_coco_weight_up.ipynb`.
@@ -143,7 +154,7 @@ Once the structure above is in place, run `detect_resume_kaggle.ipynb`.
 ### Data
 
 
-The wildlife fine-tuning dataset consists of drone footage sequences
+The wildlive fine-tuning dataset consists of drone footage sequences
 covering two classes: **elephants** and **zebras**, split into train,
 validation, and test sets as follows.
 
@@ -188,7 +199,7 @@ validation, and test sets as follows.
 ### Training Results
 
 
-The plots below show the detection fine-tuning progress on the wildlife
+The plots below show the detection fine-tuning progress on the wildlive
 dataset — mAP over epochs and the corresponding training loss curves.
 
 ![Detection mAP](figure/detect_mAP.jpg)
