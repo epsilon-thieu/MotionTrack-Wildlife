@@ -22,6 +22,60 @@ Specifically, this repo covers:
 ![Tracking demo](figure/demo.gif)
 > **Note:** The video shows the tracking result of MotionTrack running with the fine-tuned wildlife weights.
 
+## Install
+
+Since the source code is implemented as notebooks, you can run this
+project on either **Google Colab** or **Kaggle**. Before running any
+notebook, make sure the wildlive dataset is placed according to the
+structure required in the [Data Preparation](#data-preparation) section.
+
+### Detect
+
+Download the YOLOv7 pretrained weights from the
+[YOLOv7 releases page](https://github.com/WongKinYiu/yolov7/releases).
+Make sure to download the weights with the `_training` suffix (e.g.
+`yolov7-w6_training.pt`, `yolov7-tiny_training.pt`), since these are
+optimized for fine-tuning rather than inference.
+
+#### Training
+
+Run:
+```
+detect_train_kaggle.ipynb
+```
+
+#### Optional
+This section is for resuming training if you want to continue from where you left off in a previous training run.
+The weight file from the previous step must not be used on its own —
+it needs to be placed inside the following directory structure:
+```
+ run/
+ ├── weights/
+ │       └── last.pt
+ ├── hyp.yaml
+ └── opt.yaml
+```
+Once the structure above is in place, run:
+```
+detect_resume_kaggle.ipynb
+```
+
+### Track
+
+- To run tracking using the wildlive fine-tuned weights, run:
+```
+track_wl_weight_up.ipynb
+```
+- To run tracking using the COCO-pretrained weights, run:
+```
+track_coco_weight_up.ipynb
+```
+
+> **Note:** Weight paths and output/result paths in the notebooks are set
+> up based on the original author's environment. Before running, update
+> these paths to match your own setup (e.g. dataset location, weight file
+> location, and output directory).
+
 ## Data Preparation
 ### Original [wildlive dataset](https://dat-nguyenvn.github.io/WildLive/) structure
 ```
@@ -102,109 +156,7 @@ We fine-tune two pretrained YOLOv7 checkpoints — **YOLOv7-tiny** and **YOLOv7-
 
 > **Note:** COCO-pretrained checkpoints are used as baselines for comparison against the wildlive fine-tuned models.
 
-## Install
-
-Since the source code is implemented as notebooks, you can run this
-project on either **Google Colab** or **Kaggle**. Before running any
-notebook, make sure the wildlive dataset is placed according to the
-structure required in the [Data Preparation](#data-preparation) section.
-
-### Detect
-
-
-Download the YOLOv7 pretrained weights from the
-[YOLOv7 releases page](https://github.com/WongKinYiu/yolov7/releases).
-Make sure to download the weights with the `_training` suffix (e.g.
-`yolov7-w6_training.pt`, `yolov7-tiny_training.pt`), since these are
-optimized for fine-tuning rather than inference.
-
-#### Training
-
-Run:
-```
-detect_train_kaggle.ipynb
-```
-
-#### Optional
-This section is for resuming training if you want to continue from where you left off in a previous training run.
-The weight file from the previous step must not be used on its own —
-it needs to be placed inside the following directory structure:
-```
-        run/
-        ├── weights/
-        │       └── last.pt
-        ├── hyp.yaml
-        └── opt.yaml
-```
-Once the structure above is in place, run:
-```
-detect_resume_kaggle.ipynb
-```
-
-### Track
-
-
-- To run tracking using the wildlive fine-tuned weights, run:
-```
-track_wl_weight_up.ipynb
-```
-- To run tracking using the COCO-pretrained weights, run:
-```
-track_coco_weight_up.ipynb
-```
-
-> **Note:** Weight paths and output/result paths in the notebooks are set
-> up based on the original author's environment. Before running, update
-> these paths to match your own setup (e.g. dataset location, weight file
-> location, and output directory).
-
-## Benchmark
-
-
-### Data
-
-
-The wildlive fine-tuning dataset consists of drone footage sequences
-covering two classes: **elephants** and **zebras**, split into train,
-validation, and test sets as follows.
-
-**Train**
-
-| Sequence                                     | Frames | Class     |
-| --------------------------------------------- | ------ | --------- |
-| DJI_0207                                       | 868    | Elephants |
-| DJI_0117_video3                                | 807    | Zebras    |
-| DJI_0204_video2                                | 357    | Elephants |
-| DJI_0601_video2                                | 700    | Zebras    |
-| DJI_0601_video3                                | 1200   | Zebras    |
-| DJI_0601_video4                                | 1000   | Zebras    |
-| DJI_0601_video6                                | 551    | Zebras    |
-| DJI_20230719145427_0002_V_video4               | 1099   | Zebras    |
-| DJI_20230719145427_0002_V_video5               | 864    | Zebras    |
-| DJI_20240624153820_0001_V                      | 161    | Zebras    |
-| **Total**                                      | **7607** |         |
-
-**Val**
-
-| Sequence                                     | Frames | Class  |
-| --------------------------------------------- | ------ | ------ |
-| DJI_20230719145427_0002_V_video2               | 1200   | Zebras |
-
-**Test**
-
-| Sequence                                                     | Frames | Class  |
-| -------------------------------------------------------------- | ------ | ------ |
-| DJI_vlc-record-2025-01-03-14h37m50s-DJI_20240624153820_0001_V | 161    | Zebras |
-
-### Training Configuration
-
-
-| Setting   | Value       |
-| --------- | ----------- |
-| GPU       | T4          |
-| Image size| 1280 × 1280 |
-| Batch size| 4           |
-| Workers   | 4           |
+## Result
 
 ### Training Results
 
