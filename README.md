@@ -165,8 +165,8 @@ We fine-tune two pretrained YOLOv7 checkpoints — **YOLOv7-tiny** and **YOLOv7-
 The plots below show the detection fine-tuning progress on the wildlive
 dataset — mAP over epochs and the corresponding training loss curves.
 
-![Detection mAP](figure/detect_mAP.jpg)
-![Training Loss](figure/detect_Loss.jpg)
+![Detection mAP](figure/mAP.jpg)
+![Training Loss](figure/Loss.jpg)
 
 ### Tracking
 
