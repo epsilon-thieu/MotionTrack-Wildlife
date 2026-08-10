@@ -118,12 +118,13 @@ Make sure to download the weights with the `_training` suffix (e.g.
 `yolov7-w6_training.pt`, `yolov7-tiny_training.pt`), since these are
 optimized for fine-tuning rather than inference.
 
-**First-time training**
+### Training
 
-Run `detect_train_kaggle.ipynb`.
+Run:
+detect_train_kaggle.ipynb
 
-**Resuming training**
-
+### Optional
+This section is for resuming training if you want to continue from where you left off in a previous training run.
 The weight file from the previous step must not be used on its own —
 it needs to be placed inside the following directory structure:
 ```
@@ -133,15 +134,16 @@ it needs to be placed inside the following directory structure:
         ├── hyp.yaml
         └── opt.yaml
 ```
-Once the structure above is in place, run `detect_resume_kaggle.ipynb`.
+Once the structure above is in place, run:
+detect_resume_kaggle.ipynb
 
 ### Track
 
 
-- To run tracking using the wildlive fine-tuned weights, run
-  `track_wl_weight_up.ipynb`.
-- To run tracking using the COCO-pretrained weights, run
-  `track_coco_weight_up.ipynb`.
+- To run tracking using the wildlive fine-tuned weights, run:
+track_wl_weight_up.ipynb
+- To run tracking using the COCO-pretrained weights, run:
+track_coco_weight_up.ipynb
 
 > **Note:** Weight paths and output/result paths in the notebooks are set
 > up based on the original author's environment. Before running, update
