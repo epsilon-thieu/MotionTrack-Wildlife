@@ -196,3 +196,24 @@ dataset — mAP over epochs and the corresponding training loss curves.
 | YOLOv7-Tiny                 | 94.4%  | 92.9%   | 96.1%      | 89.0%  | 2   |
 | YOLOv7-W6 (fine-tuned)      | 98.2% | 99.1%  | 97.3%     | 96.3% | 2   |
 | YOLOv7-Tiny (fine-tuned)    | 97.9% | 99%    | 96.8%     | 95.7% | 2   |
+
+## Citation
+
+If you find this repository helpful for your research, please consider citing our work, as well as the original works it builds upon:
+
+```bibtex
+@misc{epsilon2026motiontrackwildlife,
+  title  = {MotionTrack-Wildlife: Multi-Object Tracking for Wildlife Drone Footage},
+  author = {epsilon-thieu},
+  year   = {2026},
+  howpublished = {\url{https://github.com/epsilon-thieu/MotionTrack-Wildlife}}
+}
+
+@inproceedings{dat2025wildlive,
+  title     = {WildLive: Near Real-time Visual Wildlife Tracking onboard {UAV}s},
+  author    = {Nguyen Ngoc Dat and Thomas Stuart Richardson and Matthew Watson and Kilian Meier and Jenna Marie Kline and Sid Reid and Guy Maalouf and Duncan Hine and Majid Mirmehdi and Tilo Burghardt},
+  booktitle = {5th Workshop on CV4Animals: Computer Vision for Animal Behavior Tracking and Modeling, In conjunction with Computer Vision and Pattern Recognition 2025},
+  year      = {2025},
+  url       = {https://drive.google.com/file/d/1F5pAptwMLmd78ZhzqTsXVDpK_v-hEeLC/view}
+}
+```
