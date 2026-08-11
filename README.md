@@ -206,7 +206,7 @@ If you find this repository helpful for your research, please consider citing ou
   title  = {MotionTrack-Wildlife: Multi-Object Tracking for Wildlife Drone Footage},
   author = {epsilon-thieu},
   year   = {2026},
-  howpublished = {\url{https://github.com/epsilon-thieu/MotionTrack-Wildlife}}
+  url       = {https://github.com/epsilon-thieu/MotionTrack-Wildlife}
 }
 
 @inproceedings{dat2025wildlive,
