@@ -204,7 +204,7 @@ If you find this repository helpful for your research, please consider citing ou
 ```bibtex
 @misc{epsilon2026motiontrackwildlife,
   title  = {MotionTrack-Wildlife: Multi-Object Tracking for Wildlife Drone Footage},
-  author = {epsilon-thieu},
+  author = {Thieu Le Anh Quy and Nguyen Ngoc Dat},
   year   = {2026},
   url       = {https://github.com/epsilon-thieu/MotionTrack-Wildlife}
 }
